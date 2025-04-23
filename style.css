@@ -18,7 +18,7 @@ body {
     background-position: center;
     
 }
-
+/* Login Jojo */
 .container {
     width: 420px;
     background-color: transparent;
@@ -41,7 +41,7 @@ body {
     margin:30px 0;
 }
 .input-box input {
-    width: 100%;
+    width: 90%;
     height: 100%;
     background-color: transparent;
     border: 2px solid white;
@@ -49,7 +49,8 @@ body {
     outline: none;  
     font-size: 16px;
     color: #fff;
-    padding: 20px 45px 20px 20px
+    padding: 20px 45px 20px 20px;
+    margin-left: 20px;
 
 }
 
@@ -58,7 +59,7 @@ body {
 }
 .input-box i {
     position: absolute;
-    right: 20px;
+    right: 40px;
     top:50%;
     transform: translateY(-50%);
     font-size:20px;
@@ -81,7 +82,7 @@ body {
  text-decoration: underline;
 }
 .login{
-    width: 100%;
+    width: 300px;
     height: 50px;
     background-color: #fff;
     border: none;
@@ -93,13 +94,18 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,.1);
     margin-top: 20px;
     min-width: 10px;
+   margin: 20px auto 0 auto; /* top auto bottom auto → CENTRALIZADO */
+    display: block; /* garante que o margin auto funcione corretamente */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login:hover{
     background-color: transparent;
     border: 2px solid rgba(255,255,255, .2);
     color: #fff;
-    transition:0,5;
+    transition:0,2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0,2);
+    transform: scale(1.05);
 }
 .register-link{
     font-size:14px;
@@ -118,3 +124,9 @@ body {
 .h1-main{
     font-family: "Playwrite HU", cursive;
 }
+
+.lembrar{
+   margin-left: 30px;
+}
+
+

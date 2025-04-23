@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+
+body {
+  background: radial-gradient(circle at top, #220033, #000000);
+  color: #fff;
+  font-family: 'Cinzel Decorative', serif;
+  text-align: center;
+  padding: 50px;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 30px;
+  color: #ffd700;
+  text-shadow: 2px 2px 5px purple;
+}
+
+button {
+  background: linear-gradient(to right, #6a0dad, #9a00ff);
+  color: white;
+  padding: 15px 40px;
+  font-size: 20px;
+  border: 3px solid gold;
+  border-radius: 12px;
+  margin: 15px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #a020f0, 0 0 20px #a020f0 inset;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff inset;
+}
+
+.resultado {
+  margin-top: 40px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffdd55;
+  text-shadow: 1px 1px 10px #ffcc00;
+  border: 3px double gold;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+}
+
+.animacao-rara {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: radial-gradient(circle, #000000 30%, #550066 90%);
+  color: gold;
+  font-size: 2.5em;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999;
+  animation: fadeIn 0.5s;
+  text-shadow: 2px 2px 10px #ff00ff;
+}
+
+.animacao-rara.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animação Cadaver */
+.img-cadaver {
+    width: 200px;
+    height: auto;
+    animation: pulsar 2.5s infinite ease-in-out, brilho-cadaver 2s infinite alternate;
+    transition: transform 0.3s;
+  }
+  
+  .img-cadaver:hover {
+    transform: scale(1.05);
+  }
+  
+  @keyframes pulsar {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+  
+  @keyframes brilho-cadaver {
+    from { filter: drop-shadow(0 0 5px #efb810); }
+    to { filter: drop-shadow(0 0 20px #ffff94); }
+  }
+
+  .opcoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .escolha {
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-family: 'Cinzel Decorative', serif;
+  }
+  
+  .img-flecha {
+    width: 200px;
+    height: auto;
+    animation: flutuar 3s ease-in-out infinite, brilho 2s infinite alternate;
+    transition: transform 0.3s;
+  }
+  
+  .img-flecha:hover {
+    transform: scale(1.05);
+  }
+  @keyframes flutuar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  @keyframes brilho {
+    from { filter: drop-shadow(0 0 10px gold); }
+    to { filter: drop-shadow(0 0 15px purple); }
+  }
+
+  animacao {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .animacao.active {
+    display: block;
+  }
+  
+  /* Animação para o Tusk ACT4 */
+  .animacao-tusk-act4 {
+    position: absolute;
+    width: 0;
+    height: 100px;
+    background: red;
+    animation: abrirBarreiraTusk 5s forwards;
+  }
+  
+  @keyframes abrirBarreiraTusk {
+    0% {
+      width: 0;
+    }
+    50% {
+      width: 80%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  /* Animação para o Gold Experience Requiem */
+  .animacao-ger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: gold;
+    animation: explosaoGER 4s forwards;
+  }
+  
+  @keyframes explosaoGER {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  /* Animação para o Made in Heaven */
+  .animacao-mih {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 5px;
+    background: white;
+    animation: acelerarTempo 5s forwards;
+  }
+  
+  @keyframes acelerarTempo {
+    0% {
+      width: 0;
+      opacity: 0;
+    }
+    50% {
+      width: 100%;
+      opacity: 0.8;
+    }
+    100% {
+      width: 100%;
+      opacity: 1;
+    }
+  }
+  .animacao-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 1));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  
+  .animacao-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .animacao-wrapper {
+    text-align: center;
+    animation: entrada-epica 0.6s ease-out forwards;
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  
+  @keyframes entrada-epica {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .animacao-video {
+    aspect-ratio: 21 / 9;
+    width: 80vw;
+    max-width: 1000px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(255, 0, 255, 0.3);
+  }
+  
+  @keyframes brilhoStand {
+    from {
+      filter: drop-shadow(0 0 15px #fff) contrast(1.1) saturate(1.1);
+    }
+    to {
+      filter: drop-shadow(0 0 25px #ff00ff) contrast(1.3) saturate(1.5);
+    }
+  }
+  .animacao-overlay.active {
+    background: radial-gradient(circle at center, rgba(0,0,0,0.9), black);
+  }
+  .stand-nome-destaque {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 20px #f0f, 0 0 30px #fff;
+    margin-bottom: 1rem;
+  }
+  .animacao-wrapper {
+    animation: entradaCinematica 0.6s ease-out forwards;
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  
+  @keyframes entradaCinematica {
+    0% {
+      transform: scale(0.7) rotate(-2deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  @keyframes tremor {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(1px, -1px); }
+    50% { transform: translate(-1px, 1px); }
+    75% { transform: translate(1px, 1px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .kanji-flutuante-container {
+    position: absolute;
+    top: 50%; /* Posição vertical ajustada */
+    left: 95%; /* Alinha o kanji à direita do conteúdo */
+    transform: translate(-50%, -50%); /* Ajusta para centralizar o kanji no eixo vertical */
+    pointer-events: none;
+    z-index: 2; /* Para o kanji aparecer acima do fundo, mas abaixo de outros elementos */
+    font-size: 3rem; /* Tamanho reduzido para um estilo mais discreto */
+    color: #fff; /* Cor branca para o kanji */
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; /* Efeito de brilho estilo JoJo */
+    animation: tremor 0.5s infinite; /* Adiciona um leve tremor */
+  }
+  
+  @keyframes tremor {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(1px, -1px); }
+    50% { transform: translate(-1px, 1px); }
+    75% { transform: translate(1px, 1px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .stand-nome-destaque {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 20px #f0f, 0 0 30px #fff;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .animacao-wrapper {
+    position: relative; /* necessário para os kanjis se posicionarem relativamente a este bloco */
+    z-index: 2;
+  }
+  .stand-nome-destaque {
+    position: relative;
+    z-index: 3;
+  }

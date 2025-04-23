@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stand Jojo</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <h1>Escolha seu destino!</h1>
+
+    
+<div class="opcoes">
+    <!-- FLECHA -->
+    <div class="escolha" onclick="escolher('flecha')">
+      <img src="/imagem/flecha.png" alt="Flecha de Stand" class="img-flecha">
+      <p>Flecha de Stand</p>
+    </div>
+  
+    <!-- CADÁVER -->
+    <div class="escolha" onclick="escolher('cadaver')">
+      <img src="/imagem/jesus.png" alt="Parte do Cadáver Santo" class="img-cadaver">
+      <p>Parte do Cadáver Santo</p>
+    </div>
+  </div>
+
+    <div id="resultado" class="resultado"></div>
+<!-- Animação Rara -->
+<div id="animacao-rara" class="animacao-overlay">
+  <div class="animacao-wrapper">
+    <div id="nome-stand" class="stand-nome-destaque"></div>
+    <video id="animacao-stand" class="animacao-video" autoplay>
+      <source id="video-source" src="" type="video/mp4" />
+      Seu navegador não suporta o formato de vídeo.
+    </video>
+  </div>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

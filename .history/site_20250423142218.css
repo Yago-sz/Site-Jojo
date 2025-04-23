@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+
+body {
+  background: radial-gradient(circle at top, #220033, #000000);
+  color: #fff;
+  font-family: 'Cinzel Decorative', serif;
+  text-align: center;
+  padding: 50px;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 30px;
+  color: #ffd700;
+  text-shadow: 2px 2px 5px purple;
+}
+
+button {
+  background: linear-gradient(to right, #6a0dad, #9a00ff);
+  color: white;
+  padding: 15px 40px;
+  font-size: 20px;
+  border: 3px solid gold;
+  border-radius: 12px;
+  margin: 15px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #a020f0, 0 0 20px #a020f0 inset;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff inset;
+}
+
+.resultado {
+  margin-top: 40px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffdd55;
+  text-shadow: 1px 1px 10px #ffcc00;
+  border: 3px double gold;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-block;
+}
+
+.animacao-rara {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: radial-gradient(circle, #000000 30%, #550066 90%);
+  color: gold;
+  font-size: 2.5em;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999;
+  animation: fadeIn 0.5s;
+  text-shadow: 2px 2px 10px #ff00ff;
+}
+
+.animacao-rara.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.img-cadaver {
+    width: 200px;
+    height: auto;
+    animation: pulsar 2.5s infinite ease-in-out, brilho-cadaver 2s infinite alternate;
+    transition: transform 0.3s;
+  }
+  
+  .img-cadaver:hover {
+    transform: scale(1.05);
+  }
+  
+  @keyframes pulsar {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+  
+  @keyframes brilho-cadaver {
+    from { filter: drop-shadow(0 0 5px #00ffff); }
+    to { filter: drop-shadow(0 0 15px #00ffcc); }
+  }
