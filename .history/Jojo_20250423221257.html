@@ -2,38 +2,11 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login Jojo</title>
   <link rel="icon" href="/imagem/icon jojo.jpg" />
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 99;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 300px;
-    }
-
-    .close {
-      float: right;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <main class="container">
@@ -63,8 +36,8 @@
     <div class="modal-content">
       <span class="close" onclick="fecharCadastro()">&times;</span>
       <h2>Cadastro</h2>
-      <input id="cad-email" type="email" placeholder="Email" required/><br/><br/>
-      <input id="cad-senha" type="password" placeholder="Senha" required/><br/><br/>
+      <input id="cad-email" type="email" placeholder="Email" required /><br /><br />
+      <input id="cad-senha" type="password" placeholder="Senha" required /><br /><br />
       <button onclick="cadastrar()">Cadastrar</button>
     </div>
   </div>
@@ -84,7 +57,7 @@
       measurementId: "G-9YHQ4XVHZ7"
     };
 
-    // Initialize Firebase
+    // Inicializa o Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const database = firebase.database();
@@ -99,17 +72,17 @@
           const user = auth.currentUser;
           if (user) {
             const userId = user.uid;
-            
+
             // Verificar se o usuário tem um stand sorteado no Firebase
             database.ref('users/' + userId).once('value')
               .then(snapshot => {
                 if (snapshot.exists()) {
                   const stand = snapshot.val().stand;
                   if (stand) {
-                    // Redirecionar para a página do stand se já tiver sorteado
+                    // Se o stand existir, redirecionar para a página de informações do stand
                     window.location.href = `standinfo.html?nome=${encodeURIComponent(stand)}`;
                   } else {
-                    // Caso o usuário não tenha stand sorteado, redirecionar para a página de escolha
+                    // Se o stand não existir, redirecionar para a página de escolha
                     window.location.href = "jojo.html";
                   }
                 } else {
@@ -145,21 +118,21 @@
         .then((userCredential) => {
           const user = userCredential.user;
           const userId = user.uid;
-          
+
           // Salvar as informações do usuário no Firebase Realtime Database
           firebase.database().ref('users/' + userId).set({
             email: email,
             stand: null // inicializa com 'null', pode ser alterado posteriormente
           })
-          .then(() => {
-            alert("Cadastro realizado com sucesso!");
-            fecharCadastro();
-            // Redirecionar para a página de escolha logo após o cadastro
-            window.location.href = "jojo.html";
-          })
-          .catch(error => {
-            alert("Erro ao salvar dados no banco de dados: " + error.message);
-          });
+            .then(() => {
+              alert("Cadastro realizado com sucesso!");
+              fecharCadastro();
+              // Redirecionar para a página de escolha logo após o cadastro
+              window.location.href = "jojo.html";
+            })
+            .catch(error => {
+              alert("Erro ao salvar dados no banco de dados: " + error.message);
+            });
         })
         .catch(error => {
           const errorCode = error.code;

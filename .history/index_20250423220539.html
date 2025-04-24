@@ -72,7 +72,6 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAvS5mpQwxsYQxR9rcPdD0JOhf6hZd3xjk",
@@ -87,7 +86,6 @@
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const database = firebase.database();
 
     function fazerLogin(event) {
       event.preventDefault();
@@ -96,30 +94,23 @@
 
       auth.signInWithEmailAndPassword(email, senha)
         .then(() => {
+          // Verifica se o usuário tem um stand sorteado no Firebase
           const user = auth.currentUser;
           if (user) {
             const userId = user.uid;
             
-            // Verificar se o usuário tem um stand sorteado no Firebase
-            database.ref('users/' + userId).once('value')
-              .then(snapshot => {
-                if (snapshot.exists()) {
-                  const stand = snapshot.val().stand;
-                  if (stand) {
-                    // Redirecionar para a página do stand se já tiver sorteado
-                    window.location.href = `standinfo.html?nome=${encodeURIComponent(stand)}`;
-                  } else {
-                    // Caso o usuário não tenha stand sorteado, redirecionar para a página de escolha
-                    window.location.href = "jojo.html";
-                  }
-                } else {
-                  alert("Usuário não encontrado no banco de dados.");
-                }
-              })
-              .catch(error => {
-                console.error("Erro ao acessar dados do Firebase:", error);
-                alert("Erro ao verificar seu stand. Tente novamente.");
-              });
+            firebase.database().ref('users/' + userId).once('value').then(snapshot => {
+              if (snapshot.exists() && snapshot.val().stand) {
+                // Se o usuário já tem um stand sorteado, redireciona para a página do stand
+                window.location.href = `standinfo.html?nome=${encodeURIComponent(snapshot.val().stand)}`;
+              } else {
+                // Se o usuário não tem stand sorteado, redireciona para a página de escolha
+                window.location.href = "jojo.html"; // ou qualquer outra página de escolha
+              }
+            }).catch((error) => {
+              console.error("Erro ao verificar stand no Firebase:", error);
+              alert("Erro ao verificar seu stand. Tente novamente.");
+            });
           }
         })
         .catch((error) => {
@@ -142,24 +133,9 @@
       const senha = document.getElementById("cad-senha").value;
 
       auth.createUserWithEmailAndPassword(email, senha)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          const userId = user.uid;
-          
-          // Salvar as informações do usuário no Firebase Realtime Database
-          firebase.database().ref('users/' + userId).set({
-            email: email,
-            stand: null // inicializa com 'null', pode ser alterado posteriormente
-          })
-          .then(() => {
-            alert("Cadastro realizado com sucesso!");
-            fecharCadastro();
-            // Redirecionar para a página de escolha logo após o cadastro
-            window.location.href = "jojo.html";
-          })
-          .catch(error => {
-            alert("Erro ao salvar dados no banco de dados: " + error.message);
-          });
+        .then(() => {
+          alert("Cadastro realizado com sucesso!");
+          fecharCadastro();
         })
         .catch(error => {
           const errorCode = error.code;

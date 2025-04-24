@@ -1,22 +1,20 @@
 const stands = {
   flecha: [
     { nome: "Star Platinum", peso: 0 },
-    { nome: "Killer Queen", peso: 10, especial: true },
+    { nome: "Killer Queen", peso: 0, especial: true },
     { nome: "Crazy Diamond", peso: 0 },
     { nome: "Gold Experience Requiem", peso: 0, especial: true },
     { nome: "The World", peso: 0, especial: true },
-    { nome: "King Crimson", peso: 10, especial: true },
+    { nome: "King Crimson", peso: 55, especial: true },
   ],
   cadaver: [
-    { nome: "Tusk ACT4", peso: 10, especial: true },
-    { nome: "D4C", peso: 10, especial: true },
+    { nome: "Tusk ACT4", peso: 50, especial: true },
+    { nome: "D4C", peso: 0, especial: true },
     { nome: "Soft & Wet", peso: 0 },
-    { nome: "Wonder of U", peso: 10, especial: true },
-    { nome: "The World - Alternativo", peso: 10, especial: true }
+    { nome: "Wonder of U", peso: 0, especial: true },
+    { nome: "The World - Alternativo", peso: 50, especial: true }
   ]
 };
-
-let videoInProgress = false; // Flag para impedir a troca do stand durante o vídeo
 
 function escolher(tipo) {
   // Verifica se o usuário está autenticado
@@ -36,12 +34,6 @@ function escolher(tipo) {
         // Redireciona para a página do Stand do usuário
         window.location.href = `standinfo.html?nome=${encodeURIComponent(snapshot.val().stand)}`;
         return;
-      }
-
-      // Se não há stand sorteado, continua com a escolha
-      if (videoInProgress) {
-        alert("Você não pode mudar de Stand durante a animação.");
-        return; // Impede a mudança durante o vídeo
       }
 
       const pool = stands[tipo];
@@ -105,9 +97,6 @@ function escolher(tipo) {
         animacaoStand.style.display = "block";
         animacaoStand.load();
 
-        // Marque que a animação está em progresso
-        videoInProgress = true;
-
         // Quando o vídeo terminar de carregar, redireciona para a página do Stand
         animacaoStand.onloadedmetadata = () => {
           const duracao = animacaoStand.duration * 1000;
@@ -141,10 +130,19 @@ function escolher(tipo) {
   });
 }
 
-// Quando o vídeo termina, reseta a flag para permitir novas escolhas de stand
-function videoTerminou() {
-  videoInProgress = false;
-}
+// Quando o usuário logar, verifica se ele já tem um stand sorteado
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    const userId = user.uid; // ID único do usuário
 
-// Adiciona um evento de "fim de vídeo"
-document.getElementById("animacao-stand").addEventListener("ended", videoTerminou);
+    // Verifica se o usuário já sorteou um stand
+    firebase.database().ref('users/' + userId).once('value').then(snapshot => {
+      if (snapshot.exists() && snapshot.val().stand) {
+        // Redireciona automaticamente para a página do Stand
+        window.location.href = `standinfo.html?nome=${encodeURIComponent(snapshot.val().stand)}`;
+      }
+    }).catch((error) => {
+      console.error("Erro ao verificar o stand do usuário no Firebase: ", error);
+    });
+  }
+});

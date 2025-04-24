@@ -16,8 +16,6 @@ const stands = {
   ]
 };
 
-let videoInProgress = false; // Flag para impedir a troca do stand durante o vídeo
-
 function escolher(tipo) {
   // Verifica se o usuário está autenticado
   firebase.auth().onAuthStateChanged(function(user) {
@@ -36,12 +34,6 @@ function escolher(tipo) {
         // Redireciona para a página do Stand do usuário
         window.location.href = `standinfo.html?nome=${encodeURIComponent(snapshot.val().stand)}`;
         return;
-      }
-
-      // Se não há stand sorteado, continua com a escolha
-      if (videoInProgress) {
-        alert("Você não pode mudar de Stand durante a animação.");
-        return; // Impede a mudança durante o vídeo
       }
 
       const pool = stands[tipo];
@@ -105,9 +97,6 @@ function escolher(tipo) {
         animacaoStand.style.display = "block";
         animacaoStand.load();
 
-        // Marque que a animação está em progresso
-        videoInProgress = true;
-
         // Quando o vídeo terminar de carregar, redireciona para a página do Stand
         animacaoStand.onloadedmetadata = () => {
           const duracao = animacaoStand.duration * 1000;
@@ -141,10 +130,19 @@ function escolher(tipo) {
   });
 }
 
-// Quando o vídeo termina, reseta a flag para permitir novas escolhas de stand
-function videoTerminou() {
-  videoInProgress = false;
-}
+// Quando o usuário logar, verifica se ele já tem um stand sorteado
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    const userId = user.uid; // ID único do usuário
 
-// Adiciona um evento de "fim de vídeo"
-document.getElementById("animacao-stand").addEventListener("ended", videoTerminou);
+    // Verifica se o usuário já sorteou um stand
+    firebase.database().ref('users/' + userId).once('value').then(snapshot => {
+      if (snapshot.exists() && snapshot.val().stand) {
+        // Redireciona automaticamente para a página do Stand
+        window.location.href = `standinfo.html?nome=${encodeURIComponent(snapshot.val().stand)}`;
+      }
+    }).catch((error) => {
+      console.error("Erro ao verificar o stand do usuário no Firebase: ", error);
+    });
+  }
+});

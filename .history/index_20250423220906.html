@@ -154,8 +154,6 @@
           .then(() => {
             alert("Cadastro realizado com sucesso!");
             fecharCadastro();
-            // Redirecionar para a página de escolha logo após o cadastro
-            window.location.href = "jojo.html";
           })
           .catch(error => {
             alert("Erro ao salvar dados no banco de dados: " + error.message);
