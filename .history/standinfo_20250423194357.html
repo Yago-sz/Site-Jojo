@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informações do Stand</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="resultado.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+</head>
+<body>
+
+  <h1 class="stand-nome" id="stand-nome">Nome do Stand</h1>
+  <p class="stand-desc" id="stand-desc">Descrição do Stand</p>
+
+  <div class="container">
+    <!-- Lado esquerdo: Ranking + Habilidades -->
+    <div class="left-info">
+      <h3>Estatísticas</h3>
+      <ul id="estatisticas-lista"></ul>
+
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+
+    <!-- Imagem do Stand -->
+    <div>
+      <img id="stand-img" src="" alt="Stand" class="stand-img" crossorigin="anonymous">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Título</h3>
+      <p id="modal-desc">Descrição detalhada.</p>
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    const dadosStands = {
+      "Wonder of U": {
+        imagem: "imagem/wonder.png",
+        descricao: "Invoca calamidades contra quem o persegue...",
+        estatisticas: {
+          "Poder Destrutivo": "10/10",
+          "Velocidade": "4/10",
+          "Alcance": "10/10",
+          "Resistência": "10/10",
+          "Precisão": "10/10",
+          "Potencial": "5/10"
+        },
+        habilidades: [
+          { nome: "Invocar Calamidades", descricao: "..." },
+          { nome: "Aura de Inevitabilidade", descricao: "..." },
+          { nome: "Manipulação da Sorte", descricao: "..." }
+        ]
+      },
+      "D4C": {
+        imagem: "imagem/d4c.png",
+        descricao: "Dirty Deeds Done Dirt Cheap permite...",
+        estatisticas: {
+          "Poder Destrutivo": "7/10",
+          "Velocidade": "7/10",
+          "Alcance": "6/10",
+          "Resistência": "7/10",
+          "Precisão": "6/10",
+          "Potencial": "8/10"
+        },
+        habilidades: [
+          { nome: "Viagem Dimensional", descricao: "..." },
+          { nome: "Fusão de Dimensões", descricao: "..." },
+          { nome: "Infiltração Estratégica", descricao: "..." }
+        ]
+      },
+      "King Crimson": {
+        imagem: "imagem/king.png",
+        descricao: "Assim que qualquer um testemunhe...",
+        estatisticas: {
+          "Poder Destrutivo": "8/10",
+          "Velocidade": "9/10",
+          "Alcance": "5/10",
+          "Resistência": "6/10",
+          "Precisão": "8/10",
+          "Potencial": "8/10"
+        },
+        habilidades: [
+          { nome: "Apagamento de Tempo", descricao: "..." },
+          { nome: "Epitaph", descricao: "..." },
+          { nome: "Passos futuros", descricao: "..." }
+        ]
+      },
+    };
+
+    const estatisticasDescricoes = {
+      "Poder Destrutivo": "Mede a força de um Stand...",
+      "Velocidade": "A velocidade de movimento...",
+      "Alcance": "A distância máxima...",
+      "Resistência": "A resistência do Stand...",
+      "Precisão": "A precisão do Stand...",
+      "Potencial": "A capacidade do Stand de evoluir..."
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const nomeStand = urlParams.get("nome");
+    const stand = dadosStands[nomeStand];
+
+    if (stand) {
+      document.getElementById("stand-nome").textContent = nomeStand;
+      document.getElementById("stand-desc").textContent = stand.descricao;
+      const img = document.getElementById("stand-img");
+      img.src = stand.imagem;
+
+      const listaEstatisticas = document.getElementById("estatisticas-lista");
+      Object.entries(stand.estatisticas).forEach(([stat, valor]) => {
+        const li = document.createElement("li");
+        li.textContent = `${stat}: ${valor}`;
+        li.addEventListener("click", () => mostrarModal(stat, estatisticasDescricoes[stat]));
+        listaEstatisticas.appendChild(li);
+      });
+
+      const listaHabilidades = document.getElementById("habilidades-lista");
+      stand.habilidades.forEach(hab => {
+        const li = document.createElement("li");
+        li.textContent = hab.nome;
+        li.addEventListener("click", () => mostrarModal(hab.nome, hab.descricao));
+        listaHabilidades.appendChild(li);
+      });
+
+      // AURA COM COR DOMINANTE
+      const colorThief = new ColorThief();
+      if (img.complete) {
+        aplicarAura();
+      } else {
+        img.addEventListener("load", aplicarAura);
+      }
+
+      function aplicarAura() {
+  const [r, g, b] = colorThief.getColor(img);
+  const baseColor = `rgba(${r}, ${g}, ${b},`;
+  img.style.animation = 'auraPulse 4s ease-in-out infinite';
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes auraPulse {
+      0% {
+        box-shadow:
+          0 0 40px ${baseColor}0.6),
+          0 0 80px ${baseColor}0.5),
+          0 0 120px ${baseColor}0.4),
+          inset 0 0 20px ${baseColor}0.3);
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        box-shadow:
+          0 0 60px ${baseColor}0.8),
+          0 0 120px ${baseColor}0.7),
+          0 0 180px ${baseColor}0.6),
+          inset 0 0 30px ${baseColor}0.4);
+        transform: scale(1.05);
+        filter: hue-rotate(20deg);
+      }
+      100% {
+        box-shadow:
+          0 0 40px ${baseColor}0.6),
+          0 0 80px ${baseColor}0.5),
+          0 0 120px ${baseColor}0.4),
+          inset 0 0 20px ${baseColor}0.3);
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    .stand-img {
+      transition: transform 0.3s ease, filter 1s ease;
+      border-radius: 12px;
+    }
+  `;
+  document.head.appendChild(style);
+
+}
+    } else {
+      document.body.innerHTML = `<h2 style="text-align:center;">Stand não encontrado.</h2>`;
+    }
+
+    function mostrarModal(titulo, desc) {
+      document.getElementById("modal-titulo").textContent = titulo;
+      document.getElementById("modal-desc").textContent = desc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

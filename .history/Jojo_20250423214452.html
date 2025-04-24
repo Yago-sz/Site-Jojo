@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stand Jojo</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <h1>Escolha seu destino!</h1>
+
+  <div class="opcoes">
+    <div class="escolha" onclick="escolher('flecha')">
+      <img src="/imagem/flecha.png" alt="Flecha de Stand" class="img-flecha">
+      <p>Flecha de Stand</p>
+    </div>
+
+    <div class="escolha" onclick="escolher('cadaver')">
+      <img src="/imagem/jesus.png" alt="Parte do Cadáver Santo" class="img-cadaver">
+      <p>Parte do Cadáver Santo</p>
+    </div>
+  </div>
+
+  <div id="resultado" class="resultado"></div>
+
+  <div id="animacao-rara" class="animacao-overlay">
+    <div class="animacao-wrapper">
+      <div id="nome-stand" class="stand-nome-destaque"></div>
+      <video id="animacao-stand" class="animacao-video" autoplay>
+        <source id="video-source" src="" type="video/mp4" />
+        Seu navegador não suporta o formato de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+  <script src="stand-sorteio.js"></script>
+
+  <script>
+    // Inicializa o Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvS5mpQwxsYQxR9rcPdD0JOhf6hZd3xjk",
+      authDomain: "jojo-addce.firebaseapp.com",
+      databaseURL: "https://jojo-addce-default-rtdb.firebaseio.com",
+      projectId: "jojo-addce",
+      storageBucket: "jojo-addce.firebasestorage.app",
+      messagingSenderId: "328521260133",
+      appId: "1:328521260133:web:69df6aaad059abe391ba8c",
+      measurementId: "G-9YHQ4XVHZ7"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Redireciona se não estiver logado
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = "index.html";
+      } else {
+        // Se já sorteou, exibe
+        firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
+          if (snapshot.exists()) {
+            const userStand = snapshot.val();
+            document.getElementById('resultado').innerHTML = `Você já sorteou o Stand: ${userStand.stand}`;
+            document.getElementById('video-source').src = userStand.video;
+          }
+        });
+      }
+    });
+
+    function escolher(opcao) {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        const userId = user.uid;
+
+        firebase.database().ref('users/' + userId).once('value').then(snapshot => {
+          if (snapshot.exists()) {
+            alert('Você já sorteou um stand!');
+          } else {
+            const standSorteado = opcao; // pega da escolha do usuário
+            const standNome = standSorteado === 'flecha' ? 'Flecha de Stand' : 'Parte do Cadáver Santo';
+            const videoSource = standSorteado === 'flecha' ? '/videos/flecha.mp4' : '/videos/cadaver.mp4';
+
+            firebase.database().ref('users/' + userId).set({
+              stand: standNome,
+              video: videoSource
+            });
+
+            document.getElementById('resultado').innerHTML = `Você sorteou o Stand: ${standNome}`;
+            document.getElementById('video-source').src = videoSource;
+
+            if (Math.random() < 0.1) {
+              document.getElementById('animacao-rara').style.display = 'block';
+              document.getElementById('nome-stand').innerText = `Stand Especial: ${standNome}`;
+            }
+          }
+        });
+      } else {
+        alert('Usuário não autenticado!');
+      }
+    }
+  </script>
+</body>
+</html>

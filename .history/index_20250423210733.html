@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Jojo</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 300px;
+    }
+
+    .close {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <form id="login-form" onsubmit="return fazerLogin(event)">
+      <h1 class="h1-main">Jojo</h1>
+      <div class="input-box">
+        <input id="email" placeholder="Usuário" type="email" required />
+        <i class="bx bxs-user"></i>
+      </div>
+      <div class="input-box">
+        <input id="senha" placeholder="Senha" type="password" required />
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+
+      <div class="remember">
+        <label><input type="checkbox" /> Lembrar senha</label>
+      </div>
+      <button type="submit" class="login">Login</button>
+      <div class="register-link">
+        <p>Não tem uma conta? <a href="#" onclick="abrirCadastro()">Cadastre-se</a></p>
+      </div>
+    </form>
+  </main>
+
+  <!-- MODAL DE CADASTRO -->
+  <div id="modalCadastro" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharCadastro()">&times;</span>
+      <h2>Cadastro</h2>
+      <input id="cad-email" type="email" placeholder="Email" required/><br/><br/>
+      <input id="cad-senha" type="password" placeholder="Senha" required/><br/><br/>
+      <button onclick="cadastrar()">Cadastrar</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvS5mpQwxsYQxR9rcPdD0JOhf6hZd3xjk",
+      authDomain: "jojo-addce.firebaseapp.com",
+      projectId: "jojo-addce",
+      storageBucket: "jojo-addce.firebasestorage.app",
+      messagingSenderId: "328521260133",
+      appId: "1:328521260133:web:69df6aaad059abe391ba8c",
+      measurementId: "G-9YHQ4XVHZ7"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Verifica se o usuário já está logado ao carregar a página de login
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // Se o usuário estiver logado, redireciona para a página "jojo.html"
+        window.location.href = "jojo.html";
+      }
+    });
+
+    function fazerLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      auth.signInWithEmailAndPassword(email, senha)
+        .then(() => {
+          // Login bem-sucedido
+          window.location.href = "jojo.html"; // Redirecionar para a página Jojo
+        })
+        .catch(() => alert("Email ou senha incorretos."));
+    }
+
+    function abrirCadastro() {
+      document.getElementById("modalCadastro").style.display = "flex";
+    }
+
+    function fecharCadastro() {
+      document.getElementById("modalCadastro").style.display = "none";
+    }
+
+    function cadastrar() {
+      const email = document.getElementById("cad-email").value;
+      const senha = document.getElementById("cad-senha").value;
+
+      auth.createUserWithEmailAndPassword(email, senha)
+        .then(() => {
+          alert("Cadastro realizado com sucesso!");
+          fecharCadastro();
+        })
+        .catch(error => {
+          alert("Erro no cadastro: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>

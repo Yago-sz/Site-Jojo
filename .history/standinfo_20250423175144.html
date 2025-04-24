@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informações do Stand</title>
+  <link rel="stylesheet" href="resultado.css">
+</head>
+<body>
+
+  <h1 class="stand-nome">Wonder of U</h1>
+  <p class="stand-desc">
+    Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.
+  </p>
+
+  <div class="container">
+    <!-- Lado esquerdo: Ranking + Habilidades -->
+    <div class="left-info">
+      <h3>Estatísticas</h3>
+      <ul id="estatisticas-lista">
+        <li data-stat="Poder Destrutivo">Poder Destrutivo: 10/10</li>
+        <li data-stat="Velocidade">Velocidade: 4/10</li>
+        <li data-stat="Alcance">Alcance: 10/10</li>
+        <li data-stat="Resistência">Resistência: 10/10</li>
+        <li data-stat="Precisão">Precisão: 10/10</li>
+        <li data-stat="Potencial">Potencial: 5/10</li>
+      </ul>
+
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+
+    <!-- Imagem do Stand -->
+    <div>
+      <img src="imagem/wonder.png" alt="Wonder of U" class="stand-img">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Título</h3>
+      <p id="modal-desc">Descrição detalhada.</p>
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    // Descrições das estatísticas
+    const estatisticasDescricoes = {
+      "Poder Destrutivo": "A medida de força bruta e destruição. Quanto maior, mais dano pode ser causado.",
+      "Velocidade": "A velocidade de movimento e ataque do Stand. Determina a rapidez com que o Stand se move e ataca.",
+      "Alcance": "A distância máxima em que o Stand pode operar com eficácia.",
+      "Resistência": "A resistência do Stand. Quanto maior, mais dano o Stand pode suportar.",
+      "Precisão": "A precisão do Stand, indicando a habilidade de realizar ataques ou ações com alta exatidão.",
+      "Potencial": "A capacidade do Stand de melhorar ou evoluir ao longo do tempo."
+    };
+
+    // Descrições das habilidades
+    const habilidades = [
+      {
+        nome: "Invocar Calamidades",
+        descricao: "Ataca os inimigos com acidentes e eventos fatais ao tentarem se aproximar, como quedas, doenças ou ferimentos."
+      },
+      {
+        nome: "Aura de Inevitabilidade",
+        descricao: "Qualquer tentativa de atacar o usuário resulta em falha ou desastre, criando uma sensação de que o destino está selado."
+      },
+      {
+        nome: "Manipulação da Sorte",
+        descricao: "Redireciona azar e consequências negativas aos inimigos, fazendo parecer que tudo dá errado para eles."
+      }
+    ];
+
+    // Lista das habilidades
+    const listaHabilidades = document.getElementById("habilidades-lista");
+    habilidades.forEach(hab => {
+      const li = document.createElement("li");
+      li.textContent = hab.nome;
+      li.addEventListener("click", () => mostrarModal(hab.nome, hab.descricao));
+      listaHabilidades.appendChild(li);
+    });
+
+    // Lista das estatísticas
+    const listaEstatisticas = document.getElementById("estatisticas-lista");
+    Object.keys(estatisticasDescricoes).forEach(stat => {
+      const li = document.createElement("li");
+      li.textContent = `${stat}: 10/10`;  // Exibindo a pontuação por padrão
+      li.setAttribute("data-stat", stat);
+      li.addEventListener("click", () => mostrarModal(stat, estatisticasDescricoes[stat]));
+      listaEstatisticas.appendChild(li);
+    });
+
+    // Função para abrir a modal com título e descrição
+    function mostrarModal(titulo, desc) {
+      document.getElementById("modal-titulo").textContent = titulo;
+      document.getElementById("modal-desc").textContent = desc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    // Função para fechar a modal
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

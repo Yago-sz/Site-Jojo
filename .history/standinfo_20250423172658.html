@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Stand</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <h1>Informações do seu Stand</h1>
+
+    <div class="stand-info-container">
+        <!-- Seção do Stand -->
+        <div id="stand-info" class="stand-card">
+            <img id="stand-img" src="" alt="Imagem do Stand" class="stand-img" />
+            <div class="stand-details">
+                <h2 id="stand-nome" class="stand-nome">Nome do Stand</h2>
+                <p id="stand-desc" class="stand-desc">Descrição épica do stand.</p>
+            </div>
+
+            <!-- Ranking -->
+            <div id="stand-ranking" class="stand-ranking">
+                <h3>Ranking</h3>
+                <ul id="ranking-lista"></ul>
+            </div>
+
+            <!-- Habilidades -->
+            <div id="stand-habilidades" class="stand-habilidades">
+                <h3>Habilidades</h3>
+                <ul id="habilidades-lista"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const standNome = decodeURIComponent(urlParams.get('stand'));
+
+        // Banco de dados de Stands
+        const infosDoStand = {
+            "Star Platinum": {
+                imagem: "img/star_platinum.jpg",
+                descricao: "Extremamente rápido e poderoso. Famoso pelo grito 'ORA ORA ORA!' e capaz de parar o tempo com 'The World'.",
+                ranking: [
+                    { nome: "Dano", valor: "10/10" },
+                    { nome: "Velocidade", valor: "9/10" },
+                    { nome: "Controle", valor: "8/10" }
+                ],
+                habilidades: [
+                    "Aceleração incrível",
+                    "Parar o tempo",
+                    "Força física excepcional"
+                ]
+            },
+            "Killer Queen": {
+                imagem: "img/killer_queen.jpg",
+                descricao: "Transforma objetos em bombas. Habilidades incluem Sheer Heart Attack e Bites the Dust.",
+                ranking: [
+                    { nome: "Dano", valor: "9/10" },
+                    { nome: "Velocidade", valor: "7/10" },
+                    { nome: "Controle", valor: "8/10" }
+                ],
+                habilidades: [
+                    "Explosões de contato",
+                    "Sheer Heart Attack",
+                    "Bites the Dust"
+                ]
+            },
+            "Wonder of U": {
+                imagem: "img/wonder.png",
+                descricao: "Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.",
+                ranking: [
+                    { nome: "Dano", valor: "8/10" },
+                    { nome: "Velocidade", valor: "6/10" },
+                    { nome: "Controle", valor: "10/10" }
+                ],
+                habilidades: [
+                    "Invocação de calamidades",
+                    "Inevitabilidade absoluta",
+                    "Manipulação da sorte"
+                ]
+            }
+            // Adicione os outros aqui se quiser!
+        };
+
+        const info = infosDoStand[standNome];
+
+        if (!info) {
+            alert("Stand não encontrado!");
+            console.log("Stand não encontrado:", standNome);
+            document.getElementById("stand-info").style.display = "none";
+        } else {
+            // Elementos do DOM
+            const standImg = document.getElementById("stand-img");
+            const standNomeEl = document.getElementById("stand-nome");
+            const standDesc = document.getElementById("stand-desc");
+            const rankingLista = document.getElementById("ranking-lista");
+            const habilidadesLista = document.getElementById("habilidades-lista");
+
+            // Preenche os dados
+            standImg.src = info.imagem;
+            standNomeEl.textContent = standNome;
+            standDesc.textContent = info.descricao;
+
+            // Ranking
+            info.ranking?.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `${item.nome}: ${item.valor}`;
+                rankingLista.appendChild(li);
+            });
+
+            // Habilidades
+            info.habilidades?.forEach(habilidade => {
+                const li = document.createElement("li");
+                li.textContent = habilidade;
+                habilidadesLista.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

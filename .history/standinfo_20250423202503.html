@@ -1,0 +1,158 @@
+!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informações do Stand</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="resultado.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+  <style>
+    /* CSS para animações */
+    .aura-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .aura {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      border-radius: 14px;
+      z-index: 1;
+      animation: auraExpand 1.5s infinite alternate;
+    }
+
+    @keyframes auraExpand {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.2); /* Diminuído para 1.2 */
+        opacity: 1;
+      }
+    }
+
+    .stand-img {
+      transition: transform 0.5s ease;
+      border-radius: 14px;
+      z-index: 2;
+      border: 5px solid transparent; /* Inicialmente sem borda */
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="stand-nome" id="stand-nome">Nome do Stand</h1>
+  <p class="stand-desc" id="stand-desc">Descrição do Stand</p>
+
+  <div class="container">
+    <!-- Lado esquerdo: Ranking + Habilidades -->
+    <div class="left-info">
+      <h3>Estatísticas</h3>
+      <ul id="estatisticas-lista"></ul>
+
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+
+    <!-- Imagem do Stand -->
+    <div class="aura-container">
+      <div class="aura"></div> <!-- Elemento para aura -->
+      <img id="stand-img" src="" alt="Stand" class="stand-img" crossorigin="anonymous">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Título</h3>
+      <p id="modal-desc">Descrição detalhada.</p>
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    const dadosStands = {
+      "Wonder of U": {
+        imagem: "imagem/wonder.png",
+        descricao: "Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.",
+        estatisticas: {
+          "Poder Destrutivo": "10/10",
+          "Velocidade": "4/10",
+          "Alcance": "10/10",
+          "Resistência": "10/10",
+          "Precisão": "10/10",
+          "Potencial": "5/10"
+        },
+        habilidades: [
+          {
+            nome: "Invocar Calamidades",
+            descricao: "Ataca os inimigos com acidentes e eventos fatais ao tentarem se aproximar, como quedas, doenças ou ferimentos."
+          },
+          {
+            nome: "Aura de Inevitabilidade",
+            descricao: "Qualquer tentativa de atacar o usuário resulta em falha ou desastre, criando uma sensação de que o destino está selado."
+          },
+          {
+            nome: "Manipulação da Sorte",
+            descricao: "Redireciona azar e consequências negativas aos inimigos, fazendo parecer que tudo dá errado para eles."
+          }
+        ]
+      }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const nomeStand = urlParams.get("nome");
+    const stand = dadosStands[nomeStand];
+
+    if (stand) {
+      document.getElementById("stand-nome").textContent = nomeStand;
+      document.getElementById("stand-desc").textContent = stand.descricao;
+      const img = document.getElementById("stand-img");
+      img.src = stand.imagem;
+
+      const listaEstatisticas = document.getElementById("estatisticas-lista");
+      Object.entries(stand.estatisticas).forEach(([stat, valor]) => {
+        const li = document.createElement("li");
+        li.textContent = `${stat}: ${valor}`;
+        listaEstatisticas.appendChild(li);
+      });
+
+      const listaHabilidades = document.getElementById("habilidades-lista");
+      stand.habilidades.forEach(hab => {
+        const li = document.createElement("li");
+        li.textContent = hab.nome;
+        listaHabilidades.appendChild(li);
+      });
+
+      // AURA E BORDAS COM COR DOMINANTE
+      img.onload = aplicarAura; // Chama a função apenas após o carregamento da imagem
+
+      function aplicarAura() {
+        const colorThief = new ColorThief();
+        const [r, g, b] = colorThief.getColor(img);
+        const baseColor = `rgba(${r}, ${g}, ${b}, 0.8)`;  // Cor dominante com opacidade
+        const borderColor = `rgb(${r}, ${g}, ${b})`; // Cor para a borda
+
+        // Atualiza o estilo da aura com a cor extraída
+        const aura = document.querySelector('.aura');
+        aura.style.background = `radial-gradient(circle, ${baseColor} 0%, transparent 70%)`;
+
+        // Atualiza a borda da imagem com a cor predominante
+        img.style.borderColor = borderColor;
+      }
+    } else {
+      document.body.innerHTML = `<h2 style="text-align:center;">Stand não encontrado.</h2>`;
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

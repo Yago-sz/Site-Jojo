@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informações do Stand</title>
+ 
+</head>
+<body>
+
+  <h1 class="stand-nome">Wonder of U</h1>
+  <p class="stand-desc">
+    Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.
+  </p>
+
+  <div class="container">
+    <!-- Lado esquerdo: Ranking + Habilidades -->
+    <div class="left-info">
+      <h3>Ranking</h3>
+      <ul>
+        <li>Dano: 9/10</li>
+        <li>Velocidade: 8/10</li>
+        <li>Controle: 7/10</li>
+      </ul>
+
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+
+    <!-- Imagem do Stand -->
+    <div>
+      <img src="imagem/wonder.png" alt="Wonder of U" class="stand-img">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Habilidade</h3>
+      <p id="modal-desc">Descrição detalhada da habilidade.</p>
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    const habilidades = [
+      {
+        nome: "Invocar Calamidades",
+        descricao: "Ataca os inimigos com acidentes e eventos fatais ao tentarem se aproximar, como quedas, doenças ou ferimentos."
+      },
+      {
+        nome: "Aura de Inevitabilidade",
+        descricao: "Qualquer tentativa de atacar o usuário resulta em falha ou desastre, criando uma sensação de que o destino está selado."
+      },
+      {
+        nome: "Manipulação da Sorte",
+        descricao: "Redireciona azar e consequências negativas aos inimigos, fazendo parecer que tudo dá errado para eles."
+      }
+    ];
+
+    const lista = document.getElementById("habilidades-lista");
+    habilidades.forEach(hab => {
+      const li = document.createElement("li");
+      li.textContent = hab.nome;
+      li.addEventListener("click", () => mostrarModal(hab.nome, hab.descricao));
+      lista.appendChild(li);
+    });
+
+    function mostrarModal(titulo, desc) {
+      document.getElementById("modal-titulo").textContent = titulo;
+      document.getElementById("modal-desc").textContent = desc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

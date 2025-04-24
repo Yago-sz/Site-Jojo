@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <script>
+    // Verifica se o usuário está logado, caso contrário redireciona para a página de login
+    if (localStorage.getItem("logado") !== "true") {
+      window.location.href = "index.html"; // Redireciona se não estiver logado
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stand Jojo</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <h1>Escolha seu destino!</h1>
+
+  <div class="opcoes">
+    <!-- FLECHA -->
+    <div class="escolha" onclick="escolher('flecha')">
+      <img src="/imagem/flecha.png" alt="Flecha de Stand" class="img-flecha">
+      <p>Flecha de Stand</p>
+    </div>
+
+    <!-- CADÁVER -->
+    <div class="escolha" onclick="escolher('cadaver')">
+      <img src="/imagem/jesus.png" alt="Parte do Cadáver Santo" class="img-cadaver">
+      <p>Parte do Cadáver Santo</p>
+    </div>
+  </div>
+
+  <div id="resultado" class="resultado"></div>
+
+  <!-- Animação Rara -->
+  <div id="animacao-rara" class="animacao-overlay">
+    <div class="animacao-wrapper">
+      <div id="nome-stand" class="stand-nome-destaque"></div>
+      <video id="animacao-stand" class="animacao-video" autoplay>
+        <source id="video-source" src="" type="video/mp4" />
+        Seu navegador não suporta o formato de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+  <script>
+    // ⬇️ Substitua com suas credenciais do Firebase:
+    const firebaseConfig = {
+    apiKey: "AIzaSyAvS5mpQwxsYQxR9rcPdD0JOhf6hZd3xjk",
+    authDomain: "jojo-addce.firebaseapp.com",
+    databaseURL: "https://jojo-addce-default-rtdb.firebaseio.com",
+    projectId: "jojo-addce",
+    storageBucket: "jojo-addce.firebasestorage.app",
+    messagingSenderId: "328521260133",
+    appId: "1:328521260133:web:69df6aaad059abe391ba8c",
+    measurementId: "G-9YHQ4XVHZ7"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  
+    // Função que realiza o sorteio do stand
+    function escolher(tipo) {
+      const user = firebase.auth().currentUser; // Pega o usuário autenticado
+      if (!user) {
+        alert("Você precisa estar logado para escolher um stand.");
+        return;
+      }
+
+      // Verifica se o usuário já sorteou um stand
+      const userRef = firebase.database().ref("users/" + user.uid);
+      userRef.once("value", snapshot => {
+        const userData = snapshot.val();
+        if (userData && userData.stand) {
+          alert("Você já sorteou um stand!");
+          return;
+        }
+
+        // Sorteia o stand
+        let stand = tipo === 'flecha' ? "Flecha de Stand" : "Parte do Cadáver Santo";
+        
+        // Salva o stand sorteado no Firebase
+        userRef.set({
+          email: user.email,
+          stand: stand
+        });
+
+        // Exibe a animação de sorteio
+        document.getElementById("resultado").innerText = `Você sorteou: ${stand}`;
+        showAnimation(stand);
+      });
+    }
+
+    // Função para exibir a animação do stand
+    function showAnimation(stand) {
+      const videoSource = document.getElementById("video-source");
+      const nomeStand = document.getElementById("nome-stand");
+      const animacaoRara = document.getElementById("animacao-rara");
+
+      if (stand === "Flecha de Stand") {
+        videoSource.src = "/animacao/flecha.mp4"; // Caminho do vídeo de animação da Flecha
+        nomeStand.innerText = "Stand Sorteado: Flecha de Stand";
+      } else if (stand === "Parte do Cadáver Santo") {
+        videoSource.src = "/animacao/cadaver.mp4"; // Caminho do vídeo de animação do Cadáver Santo
+        nomeStand.innerText = "Stand Sorteado: Parte do Cadáver Santo";
+      }
+
+      animacaoRara.style.display = "block"; // Exibe a animação
+      document.getElementById("animacao-stand").load();
+    }
+
+    // Verifica se o usuário está logado, caso contrário redireciona
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html"; // Redireciona para a página de login se não estiver logado
+      }
+    });
+  </script>
+</body>
+</html>

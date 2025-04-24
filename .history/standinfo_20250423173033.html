@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Stand</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <h1>Informações do seu Stand</h1>
+
+    <div class="stand-card">
+      <img id="stand-img" src="" alt="Imagem do Stand" class="stand-img">
+      <h2 id="stand-nome">Nome do Stand</h2>
+      <p id="stand-desc">Descrição do Stand</p>
+  
+      <h3>Ranking</h3>
+      <ul id="ranking-lista"></ul>
+  
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+  
+    <!-- Modal -->
+    <div id="modal" class="modal-overlay">
+      <div class="modal-content">
+        <h3 id="modal-titulo">Habilidade</h3>
+        <p id="modal-desc">Descrição detalhada da habilidade.</p>
+        <button class="close-btn" onclick="fecharModal()">Fechar</button>
+      </div>
+    </div>
+  
+    <script>
+      const standNome = "Wonder of U";
+      const info = {
+        imagem: "img/wonder.png",
+        descricao: "Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.",
+        ranking: [
+          { nome: "Dano", valor: "9/10" },
+          { nome: "Velocidade", valor: "8/10" },
+          { nome: "Controle", valor: "7/10" }
+        ],
+        habilidades: [
+          {
+            nome: "Invocar Calamidades",
+            descricao: "Ataca os inimigos com acidentes e eventos fatais ao tentarem se aproximar, como quedas, doenças ou ferimentos."
+          },
+          {
+            nome: "Aura de Inevitabilidade",
+            descricao: "Qualquer tentativa de atacar o usuário resulta em falha ou desastre, criando uma sensação de que o destino está selado."
+          },
+          {
+            nome: "Manipulação da Sorte",
+            descricao: "Redireciona azar e consequências negativas aos inimigos, fazendo parecer que tudo dá errado para eles."
+          }
+        ]
+      };
+  
+      document.getElementById("stand-img").src = info.imagem;
+      document.getElementById("stand-nome").textContent = standNome;
+      document.getElementById("stand-desc").textContent = info.descricao;
+  
+      const rankingLista = document.getElementById("ranking-lista");
+      info.ranking.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nome}: ${item.valor}`;
+        rankingLista.appendChild(li);
+      });
+  
+      const habilidadesLista = document.getElementById("habilidades-lista");
+      info.habilidades.forEach(hab => {
+        const li = document.createElement("li");
+        li.textContent = hab.nome;
+        li.classList.add("habilidade-item");
+        li.addEventListener("click", () => mostrarModal(hab.nome, hab.descricao));
+        habilidadesLista.appendChild(li);
+      });
+  
+      function mostrarModal(titulo, descricao) {
+        document.getElementById("modal-titulo").textContent = titulo;
+        document.getElementById("modal-desc").textContent = descricao;
+        document.getElementById("modal").style.display = "flex";
+      }
+  
+      function fecharModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+    </script>
+  
+  </body>
+  </html>

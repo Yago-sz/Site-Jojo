@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&family=Unica+One&family=Rock+Salt&display=swap');
+
+body {
+  font-family: 'Unica One', cursive;
+  background: url('imagem/login.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+h1.stand-nome {
+  font-family: 'Staatliches', sans-serif;
+  font-size: 50px;
+  color: #ffd700;
+  text-shadow: 3px 3px 6px #000, 0 0 25px #ff00ff, 0 0 5px #ff00ff;
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.stand-desc {
+  font-size: 20px;
+  color: #f0e6ff;
+  margin-bottom: 40px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 3px #000;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.left-info {
+    text-align: left;
+    max-width: 400px; /* Aumentei a largura */
+    background: rgba(0, 0, 0, 0.8);
+    padding: 35px 30px; /* Aumentei o padding para dar mais espaço interno */
+    border: 4px solid gold;
+    border-radius: 18px; /* Aumentei o raio da borda */
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+    transition: all 0.3s ease;
+    width: 100%; /* Garante que a largura se ajuste ao dispositivo */
+  }
+
+.left-info:hover {
+  transform: scale(1.05);
+}
+
+.left-info h3 {
+    margin-top: 25px; /* Maior espaçamento superior */
+    margin-bottom: 15px; /* Maior espaçamento inferior */
+    font-size: 26px; /* Aumentei o tamanho da fonte */
+    color: #ffe066;
+    text-shadow: 2px 2px #000;
+  }
+
+  .left-info ul {
+    padding-left: 25px; /* Ajustei o padding para mais espaçamento */
+  }
+
+.left-info li {
+  margin-bottom: 15px; /* Aumentei o espaçamento entre os itens */
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px; /* Aumentei o tamanho da fonte dos itens */
+  text-decoration: underline;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.left-info li:hover {
+    color: #ffe066;
+    transform: scale(1.1);
+  }
+
+.stand-img {
+  max-width: 550px;
+  height: 550px;
+  border-radius: 20px;
+  border: 5px solid #ffd700;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.stand-img:hover {
+  transform: scale(1.1);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #2a0044;
+  color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+  border: 4px solid #ffd700;
+  transition: all 0.3s ease;
+}
+
+.modal-content h3 {
+  font-size: 30px;
+  color: #ffe066;
+  text-shadow: 2px 2px #000;
+}
+
+.modal-content p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.close-btn {
+  background: #8000ff;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(128, 0, 255, 0.8);
+}
+
+.close-btn:hover {
+  background: #a64dff;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(128, 0, 255, 1);
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <script>
+    // Verifica se o usuário está logado, caso contrário redireciona para a página de login
+    if (localStorage.getItem("logado") !== "true") {
+      window.location.href = "index.html"; // Redireciona se não estiver logado
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stand Jojo</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <h1>Escolha seu destino!</h1>
+
+  <div class="opcoes">
+    <!-- FLECHA -->
+    <div class="escolha" onclick="escolher('flecha')">
+      <img src="/imagem/flecha.png" alt="Flecha de Stand" class="img-flecha">
+      <p>Flecha de Stand</p>
+    </div>
+
+    <!-- CADÁVER -->
+    <div class="escolha" onclick="escolher('cadaver')">
+      <img src="/imagem/jesus.png" alt="Parte do Cadáver Santo" class="img-cadaver">
+      <p>Parte do Cadáver Santo</p>
+    </div>
+  </div>
+
+  <div id="resultado" class="resultado"></div>
+
+  <!-- Animação Rara -->
+  <div id="animacao-rara" class="animacao-overlay">
+    <div class="animacao-wrapper">
+      <div id="nome-stand" class="stand-nome-destaque"></div>
+      <video id="animacao-stand" class="animacao-video" autoplay>
+        <source id="video-source" src="" type="video/mp4" />
+        Seu navegador não suporta o formato de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script>
+    // ⬇️ Substitua com suas credenciais do Firebase:
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_DOMINIO.firebaseapp.com",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_BUCKET.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+   
+  </script>
+</body>
+</html> 

@@ -1,0 +1,84 @@
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(to right, #1b0036, #3c005e);
+    color: white;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .stand-nome {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .stand-desc {
+    font-size: 16px;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .left-info {
+    text-align: left;
+    max-width: 300px;
+  }
+  
+  .left-info h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .left-info ul {
+    padding-left: 20px;
+  }
+  
+  .left-info li {
+    margin-bottom: 6px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .stand-img {
+    max-width: 280px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffffff50;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .close-btn {
+    background: #8000ff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 12px;
+    cursor: pointer;
+  }

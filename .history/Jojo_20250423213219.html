@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <script>
+    // Verifica se o usuário está logado, caso contrário redireciona para a página de login
+    if (localStorage.getItem("logado") !== "true") {
+      window.location.href = "index.html"; // Redireciona se não estiver logado
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stand Jojo</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <h1>Escolha seu destino!</h1>
+
+  <div class="opcoes">
+    <!-- FLECHA -->
+    <div class="escolha" onclick="escolher('flecha')">
+      <img src="/imagem/flecha.png" alt="Flecha de Stand" class="img-flecha">
+      <p>Flecha de Stand</p>
+    </div>
+
+    <!-- CADÁVER -->
+    <div class="escolha" onclick="escolher('cadaver')">
+      <img src="/imagem/jesus.png" alt="Parte do Cadáver Santo" class="img-cadaver">
+      <p>Parte do Cadáver Santo</p>
+    </div>
+  </div>
+
+  <div id="resultado" class="resultado"></div>
+
+  <!-- Animação Rara -->
+  <div id="animacao-rara" class="animacao-overlay">
+    <div class="animacao-wrapper">
+      <div id="nome-stand" class="stand-nome-destaque"></div>
+      <video id="animacao-stand" class="animacao-video" autoplay>
+        <source id="video-source" src="" type="video/mp4" />
+        Seu navegador não suporta o formato de vídeo.
+      </video>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+  <script>
+    // ⬇️ Substitua com suas credenciais do Firebase:
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_DOMINIO.firebaseapp.com",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_BUCKET.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Função para sortear o Stand e salvar no Firebase
+    function escolher(opcao) {
+      const user = firebase.auth().currentUser;
+      
+      if (user) {
+        const userId = user.uid;
+
+        // Verifica se o usuário já sorteou um stand
+        firebase.database().ref('users/' + userId).once('value').then(snapshot => {
+          if (snapshot.exists()) {
+            // Caso o usuário já tenha sorteado, não faz nada
+            alert('Você já sorteou um stand!');
+          } else {
+            // Sorteia o stand
+            const standSorteado = Math.random() < 0.5 ? 'flecha' : 'cadaver'; // Sorteio aleatório para exemplo
+            const standNome = standSorteado === 'flecha' ? 'Flecha de Stand' : 'Parte do Cadáver Santo';
+            const videoSource = standSorteado === 'flecha' ? '/videos/flecha.mp4' : '/videos/cadaver.mp4';
+
+            // Salva o stand sorteado no Firebase
+            firebase.database().ref('users/' + userId).set({
+              stand: standNome,
+              video: videoSource
+            });
+
+            // Exibe o resultado
+            document.getElementById('resultado').innerHTML = `Você sorteou o Stand: ${standNome}`;
+            document.getElementById('video-source').src = videoSource;
+
+            // Exibe animação rara caso o sorteio tenha sido raro (exemplo)
+            if (Math.random() < 0.1) {
+              document.getElementById('animacao-rara').style.display = 'block';
+              document.getElementById('nome-stand').innerText = `Stand Especial: ${standNome}`;
+            }
+          }
+        });
+      } else {
+        alert('Usuário não autenticado!');
+      }
+    }
+
+        // Redireciona para a página do stand sorteado, caso já tenha sorteado
+        firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
+          if (snapshot.exists()) {
+            const userStand = snapshot.val();
+            document.getElementById('resultado').innerHTML = `Você já sorteou o Stand: ${userStand.stand}`;
+            document.getElementById('video-source').src = userStand.video;
+          }
+        });
+  </script>
+</body>
+</html>
