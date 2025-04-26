@@ -84,6 +84,7 @@ body {
 .login{
     width: 300px;
     height: 50px;
+    background-color: #fff;
     border: none;
     border-radius: 40px;
     cursor:pointer;
@@ -126,4 +127,15 @@ body {
 
 .lembrar{
    margin-left: 30px;
+}
+.modal-content{
+    width: 420px;
+    background-color: black;
+    border: 1px solid;
+    border-radius: 10px;
+    color: white;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+   border-radius: 30px;
+    height: 300px;
+    
 }

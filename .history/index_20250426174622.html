@@ -22,40 +22,27 @@
     }
 
     .modal-content{
-    width: 420px;
+    width: 300px;
     background-color: black;
     border: 1px solid;
     border-radius: 10px;
     color: white;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    backdrop-filter: blur(100px) ;
     height: 300px;
-    padding: 25px;
-    display: block;
     }
-    
-.modal-content input{
+
+
+  .modal-content input{
 font-size: 23px;
 width: 350px;
 border-radius: 15px;
 font-family: "Playwrite HU", cursive;
 }
-
-
-
-
-.modal-content button:hover{
-  background-color: transparent;
-    border: 2px solid rgba(255,255,255, .2);
-    color: #fff;
-    transition:0,2;
-    box-shadow: 0 4px 10px rgba(0,0,0,0,2);
-    transform: scale(1.05);
-}
-
-
 .modal-content button{
 width: 300px;
 height: 50px;
+
 border: none;
 border-radius: 40px;
 cursor:pointer;
@@ -84,7 +71,7 @@ font-family: "Playwrite HU", cursive;
     <form id="login-form" onsubmit="return fazerLogin(event)">
       <h1 class="h1-main">Jojo</h1>
       <div class="input-box">
-        <input id="email" placeholder="Email" type="email" required />
+        <input id="email" placeholder="Usuário" type="email" required />
         <i class="bx bxs-user"></i>
       </div>
       <div class="input-box">

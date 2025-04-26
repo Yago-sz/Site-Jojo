@@ -127,3 +127,6 @@ body {
 .lembrar{
    margin-left: 30px;
 }
+.modal-content{
+    background-color: black;
+}
