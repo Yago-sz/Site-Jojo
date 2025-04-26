@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informações do Stand</title>
+  <link rel="icon" href="/imagem/icon jojo.jpg">
+  <link rel="stylesheet" href="resultado.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+  <style>
+    /* CSS para animações */
+    .aura-container {
+      position: relative;
+      display: inline-block;
+    }
+
+
+    
+
+    @keyframes auraExpand {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.2); /* Diminuído para 1.2 */
+        opacity: 1;
+      }
+    }
+
+    .stand-img {
+      transition: transform 0.5s ease;
+      border-radius: 14px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="stand-nome" id="stand-nome">Nome do Stand</h1>
+  <p class="stand-desc" id="stand-desc">Descrição do Stand</p>
+
+  <div class="container">
+    <!-- Lado esquerdo: Ranking + Habilidades -->
+    <div class="left-info">
+      <h3>Estatísticas</h3>
+      <ul id="estatisticas-lista"></ul>
+
+      <h3>Habilidades</h3>
+      <ul id="habilidades-lista"></ul>
+    </div>
+
+    <!-- Imagem do Stand -->
+    <div class="aura-container">
+      <div class="aura"></div> <!-- Elemento para aura -->
+      <img id="stand-img" src="" alt="Stand" class="stand-img" crossorigin="anonymous">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Título</h3>
+      <p id="modal-desc">Descrição detalhada.</p>
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    const dadosStands = {
+      "Wonder of U": {
+        imagem: "imagem/wonder.png",
+        descricao: "Invoca calamidades contra quem o persegue. Atua com uma aura de inevitabilidade.",
+        estatisticas: {
+          "Poder Destrutivo": "10/10",
+          "Velocidade": "4/10",
+          "Alcance": "10/10",
+          "Resistência": "10/10",
+          "Precisão": "10/10",
+          "Potencial": "5/10"
+        },
+        habilidades: [
+          {
+            nome: "Invocar Calamidades",
+            descricao: "Ataca os inimigos com acidentes e eventos fatais ao tentarem se aproximar, como quedas, doenças ou ferimentos."
+          },
+          {
+            nome: "Aura de Inevitabilidade",
+            descricao: "Qualquer tentativa de atacar o usuário resulta em falha ou desastre, criando uma sensação de que o destino está selado."
+          },
+          {
+            nome: "Manipulação da Sorte",
+            descricao: "Redireciona azar e consequências negativas aos inimigos, fazendo parecer que tudo dá errado para eles."
+          }
+        ]
+      },
+      "Crazy Diamond": {
+  "imagem": "imagem/crazy_diamond.png",
+  "descricao": "Possui a habilidade de restaurar e reparar objetos e pessoas, mas também pode causar danos a elas, caso necessário. É um Stand de grande força e velocidade.",
+  "estatisticas": {
+    "Poder Destrutivo": "9/10",
+    "Velocidade": "9/10",
+    "Alcance": "6/10",
+    "Resistência": "7/10",
+    "Precisão": "8/10",
+    "Potencial": "8/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Restaurar",
+      "descricao": "Restaurar qualquer objeto ou ser vivo a um estado anterior, curando ferimentos ou reparando danos, mas com limitações de tempo e esforço."
+    },
+    {
+      "nome": "Reparação de Danos",
+      "descricao": "É capaz de consertar ou restaurar qualquer coisa que tenha sido danificada, seja uma construção, um objeto ou até mesmo a própria carne humana."
+    },
+    {
+      "nome": "Destruição de Objetos",
+      "descricao": "Embora seu poder principal seja de restauração, Crazy Diamond pode usar suas habilidades para causar destruição e danificar objetos, criando uma fusão de ataque e cura."
+    }
+  ]
+},
+"Golden Experience": {
+  "imagem": "imagem/golden_experience.png",
+  "descricao": "Possui a habilidade de conceder vida a objetos inanimados, além de curar pessoas e criar seres vivos a partir de qualquer coisa. É um Stand versátil com grande poder de manipulação biológica.",
+  "estatisticas": {
+    "Poder Destrutivo": "7/10",
+    "Velocidade": "8/10",
+    "Alcance": "7/10",
+    "Resistência": "6/10",
+    "Precisão": "9/10",
+    "Potencial": "10/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Criação de Vida",
+      "descricao": "Concede vida a objetos inanimados, transformando-os em criaturas vivas que podem interagir com o ambiente de maneira inteligente."
+    },
+    {
+      "nome": "Cura",
+      "descricao": "Pode curar ferimentos ou doenças, restaurando a saúde de pessoas e seres vivos ao tocá-los ou ao usar a habilidade diretamente em suas células."
+    },
+    {
+      "nome": "Manipulação Biológica",
+      "descricao": "Pode alterar o funcionamento biológico de seres vivos, controlando suas funções ou acelerando seus processos vitais, como cura ou crescimento."
+    }
+  ]
+},
+"The World": {
+  "imagem": "imagem/the_world.png",
+  "descricao": "Possui a habilidade de parar o tempo, permitindo que seu usuário se mova livremente enquanto o tempo está congelado. É um Stand extremamente poderoso, com grande força física e capacidade de destruição.",
+  "estatisticas": {
+    "Poder Destrutivo": "10/10",
+    "Velocidade": "9/10",
+    "Alcance": "8/10",
+    "Resistência": "9/10",
+    "Precisão": "8/10",
+    "Potencial": "10/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Parar o Tempo",
+      "descricao": "O usuário é capaz de parar o tempo por um curto período, durante o qual ele pode se mover livremente enquanto tudo ao seu redor permanece congelado."
+    },
+    {
+      "nome": "Grande Força Física",
+      "descricao": "The World é extremamente forte, capaz de realizar ataques devastadores com grande poder destrutivo e velocidade."
+    },
+    {
+      "nome": "Destruição em Massa",
+      "descricao": "Com sua enorme força, The World é capaz de causar destruição em larga escala com seus ataques rápidos e poderosos."
+    }
+  ]
+},
+"Golden Experience Requiem": {
+  "imagem": "imagem/golden_experience_requiem.png",
+  "descricao": "Golden Experience Requiem possui a habilidade de manipular o conceito de 'fatalidade', tornando qualquer tentativa de causar dano ao usuário inútil, além de reverter os efeitos de qualquer ataque. Ele também pode fazer com que os eventos se repitam até que se tornem uma inevitabilidade.",
+  "estatisticas": {
+    "Poder Destrutivo": "10/10",
+    "Velocidade": "9/10",
+    "Alcance": "9/10",
+    "Resistência": "10/10",
+    "Precisão": "10/10",
+    "Potencial": "10/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Fatalidade",
+      "descricao": "Golden Experience Requiem pode anular qualquer tentativa de dano ou ataque contra o usuário, revertendo o efeito ao ponto de tornar a ação inútil."
+    },
+    {
+      "nome": "Repetição de Eventos",
+      "descricao": "A habilidade de fazer os eventos se repetirem até se tornarem inevitáveis, criando uma sensação de ciclo constante onde o destino se repete e não pode ser evitado."
+    },
+    {
+      "nome": "Reversão do Destino",
+      "descricao": "Golden Experience Requiem pode manipular a linha do tempo e o destino de uma pessoa, fazendo com que as ações do passado ou do futuro sejam revertidas e neutralizadas."
+    }
+  ]
+},
+"Red Hot Chili Peppers": {
+  "imagem": "imagem/red_hot_chili_peppers.png",
+  "descricao": "Red Hot Chili Peppers é um Stand de eletricidade e manipulação de energia elétrica. Ele pode controlar fios e cabos elétricos, usando-os como extensão de suas habilidades, além de poder gerar eletricidade em grande quantidade para ataques devastadores.",
+  "estatisticas": {
+    "Poder Destrutivo": "8/10",
+    "Velocidade": "7/10",
+    "Alcance": "9/10",
+    "Resistência": "6/10",
+    "Precisão": "8/10",
+    "Potencial": "9/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Controle de Fios Elétricos",
+      "descricao": "Red Hot Chili Peppers pode controlar fios elétricos e cabos de qualquer tipo, usando-os para atacar e manipular seu ambiente com precisão e eficiência."
+    },
+    {
+      "nome": "Geração de Eletricidade",
+      "descricao": "O Stand pode gerar eletricidade de forma intensa, disparando rajadas elétricas poderosas que causam danos significativos a seus inimigos."
+    },
+    {
+      "nome": "Deslocamento via Energia",
+      "descricao": "Red Hot Chili Peppers pode se mover rapidamente através de cabos e fios elétricos, permitindo-lhe alcançar lugares distantes com rapidez e se teletransportar para diferentes pontos de energia."
+    }
+  ]
+},
+"The Hand": {
+  "imagem": "imagem/the_hand.png",
+  "descricao": "The Hand tem a habilidade de apagar o espaço à sua frente, criando um vácuo e permitindo que o usuário manipule o ambiente ao seu redor. Ele pode apagar qualquer coisa, incluindo objetos e até mesmo o ar, criando uma poderosa força de destruição e ataque à distância.",
+  "estatisticas": {
+    "Poder Destrutivo": "9/10",
+    "Velocidade": "8/10",
+    "Alcance": "7/10",
+    "Resistência": "7/10",
+    "Precisão": "8/10",
+    "Potencial": "9/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Apagar o Espaço",
+      "descricao": "The Hand pode apagar o espaço à sua frente, eliminando qualquer objeto ou matéria que esteja dentro dessa área, criando um vácuo destrutivo."
+    },
+    {
+      "nome": "Deslocamento do Espaço",
+      "descricao": "Ao apagar o espaço à sua frente, The Hand pode criar novos espaços ou mover-se rapidamente, fazendo com que os objetos se aproximem do usuário ou o usuário se desloque através do vácuo criado."
+    },
+    {
+      "nome": "Força Destrutiva",
+      "descricao": "The Hand é capaz de criar poderosos ataques físicos, com grande força destrutiva, ao usar a habilidade de apagar e reorganizar o espaço à sua frente."
+    }
+  ]
+},
+"Cream": {
+  "imagem": "imagem/cream.png",
+  "descricao": "Cream é um Stand extremamente poderoso, com a habilidade de absorver e lançar ataques através de sua 'boca', criando um buraco negro que apaga tudo ao seu redor. Esse Stand pode desaparecer em uma esfera de escuridão, tornando-se intangível e podendo atacar de dentro desse espaço sem ser visto.",
+  "estatisticas": {
+    "Poder Destrutivo": "9/10",
+    "Velocidade": "8/10",
+    "Alcance": "7/10",
+    "Resistência": "6/10",
+    "Precisão": "8/10",
+    "Potencial": "9/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Buraco Negro",
+      "descricao": "Cream pode gerar um buraco negro de escuridão a partir de sua 'boca', consumindo qualquer coisa que entre dentro dele e podendo disparar ataques a partir desse espaço."
+    },
+    {
+      "nome": "Intangibilidade",
+      "descricao": "Cream pode se tornar intangível, desaparecendo na escuridão do buraco negro e tornando-se impossível de ser atingido enquanto permanece em seu interior."
+    },
+    {
+      "nome": "Ataque Destrutivo à Distância",
+      "descricao": "O Stand é capaz de atacar de dentro de sua esfera de escuridão, realizando ataques inesperados enquanto permanece intangível e intocável."
+    }
+  ]
+},
+"Hierophant Green": {
+  "imagem": "imagem/hierophant_green.png",
+  "descricao": "Hierophant Green é um Stand versátil que se especializa em ataques à distância e controle de objetos. Ele pode usar suas cordas, chamadas 'esporas', para atacar com precisão, manipular objetos e até possuí-los, além de ter a habilidade de realizar ataques psíquicos com grande eficácia.",
+  "estatisticas": {
+    "Poder Destrutivo": "7/10",
+    "Velocidade": "8/10",
+    "Alcance": "9/10",
+    "Resistência": "6/10",
+    "Precisão": "9/10",
+    "Potencial": "8/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Esporas",
+      "descricao": "Hierophant Green pode usar suas cordas, chamadas 'esporas', para atacar à distância, imobilizar inimigos ou manipular objetos à distância com grande precisão."
+    },
+    {
+      "nome": "Possessão de Objetos",
+      "descricao": "Com suas esporas, Hierophant Green pode controlar objetos ou até mesmo seres vivos, manipulando-os à sua vontade e tornando-se um oponente imprevisível em combate."
+    },
+    {
+      "nome": "Ataques Psíquicos",
+      "descricao": "Hierophant Green tem a capacidade de realizar ataques psíquicos, utilizando sua mente para realizar poderosos ataques que afetam diretamente a mente de seus inimigos."
+    }
+  ]
+},
+"Magician's Red": {
+  "imagem": "imagem/magicians_red.png",
+  "descricao": "Magician's Red é um Stand baseado em fogo, com a habilidade de controlar e manipular chamas. Ele pode gerar intensas rajadas de fogo e lançar ataques flamejantes com grande precisão. Seu poder destrutivo é notável, capaz de causar danos devastadores e desintegrar seus inimigos com a força do fogo.",
+  "estatisticas": {
+    "Poder Destrutivo": "9/10",
+    "Velocidade": "7/10",
+    "Alcance": "8/10",
+    "Resistência": "7/10",
+    "Precisão": "8/10",
+    "Potencial": "8/10"
+  },
+  "habilidades": [
+    {
+      "nome": "Rajada de Fogo",
+      "descricao": "Magician's Red pode disparar rajadas de fogo altamente destrutivas em grande velocidade, capaz de incinerar praticamente qualquer coisa em seu caminho."
+    },
+    {
+      "nome": "Controle de Chamas",
+      "descricao": "O Stand pode controlar o fogo ao seu redor, manipulando as chamas para criar barreiras, ataques ou até para se defender de ataques inimigos."
+    },
+    {
+      "nome": "Explosões Flamejantes",
+      "descricao": "Magician's Red pode gerar explosões de fogo concentradas, que podem causar danos em grande área e desintegrar tudo ao redor da explosão."
+    }
+  ]
+},
+
+    
+     "D4C": {
+  imagem: "imagem/d4c.png",
+  descricao: "Dirty Deeds Done Dirt Cheap permite ao usuário viajar entre dimensões paralelas e manipular essas realidades a seu favor.",
+  estatisticas: {
+    "Poder Destrutivo": "7/10",
+    "Velocidade": "7/10",
+    "Alcance": "6/10",
+    "Resistência": "7/10",
+    "Precisão": "6/10",
+    "Potencial": "8/10"
+  },
+  habilidades: [
+    {
+      nome: "Viagem Dimensional",
+      descricao: "Permite que o usuário entre e saia de universos paralelos à vontade, acessando versões alternativas de qualquer pessoa ou objeto."
+    },
+    {
+      nome: "Fusão de Dimensões",
+      descricao: "Pode manipular interações entre versões alternativas da mesma pessoa, causando a destruição de ambas se entrarem em contato direto."
+    },
+    {
+      nome: "Infiltração Estratégica",
+      descricao: "Utiliza clones de outras dimensões para manipular eventos e confundir inimigos."
+    }
+  ]
+  },
+      "King Crimson": {
+  imagem: "imagem/king.png",
+  descricao: "Assim que qualquer um testemunhe o King Crimson...desde aquele momento..eles não mais existem neste mundo. .",
+  estatisticas: {
+    "Poder Destrutivo": "8/10",
+    "Velocidade": "9/10",
+    "Alcance": "5/10",
+    "Resistência": "6/10",
+    "Precisão": "8/10",
+    "Potencial": "8/10"
+  },
+  habilidades: [
+    {
+      nome: "Apagamento de Tempo",
+      descricao: "A habilidade marca assinada do King Crimson é de apagar uma dada porção de tempo durando até 10 segundos, começando no instante em que a habilidade é ativada. Na porção de tempo apagada, outras pessoas serão incapazes de passar por qualquer coisa que tenha acontecido e também não guardarão nenhuma memória do que aconteceu. Após a dada porção de tempo, elas irão repentinamente se encontrar na situação em que eles deveriam estar depois. Houve, entretanto, uma ocasião em que uma pessoa foi capaz de ver a si mesma antes de se encontrar em sua posição futura"  
+    },
+    {
+      nome: "Epitaph",
+      descricao: " o Stand pode ver até alguns segundos no futuro, permitindo ao usuário antecipar qualquer ataque ou evento, como também, projetar o futuro em alguma superfice."
+    },
+    {
+      nome: "Passos futuros",
+         descricao: "Durante a exclusão do tempo, o usuário pode agir livremente enquanto todos os outros ficam 'congelados'."
+    }
+  ]
+},
+  "The World - Alternativo": {
+    imagem: "imagem/world.png",
+  descricao: "O Stand de Diego Brando em seu auge, 'The World', é extremamente poderoso e compartilha a habilidade de parar o tempo por breves momentos.",
+  estatisticas: {
+    "Poder Destrutivo": "9/10",
+    "Velocidade": "9/10",
+    "Alcance": "2/10",
+    "Resistência": "9/10",
+    "Precisão": "8/10",
+    "Potencial": "7/10"
+  },
+  habilidades: [
+    {
+      nome: "Parar o Tempo",
+      descricao: "Permite que pare o tempo por até 5 segundos. Durante este intervalo, apenas ele pode se mover, tornando-o praticamente intocável."
+    },
+    {
+      nome: "Força Sobre-Humana",
+      descricao: "The World possui força física acima da média, capaz de esmagar inimigos com socos poderosos em alta velocidade."
+    },
+    {
+      nome: "Velocidade e Precisão",
+      descricao: "Apesar de seu alcance ser limitado, The World é incrivelmente rápido e preciso em seus golpes, tornando ataques diretos quase inevitáveis."
+    }
+  ]
+},
+"Tusk ACT4": {
+  imagem: "imagem/tusk.png",
+  descricao: "A forma final do Stand de Johnny Joestar, Tusk ACT4 canaliza o poder absoluto do Giro Infinito aliado ao Cadáver Sagrado, capaz de ignorar as leis do tempo, espaço e até habilidades dimensionais.",
+  estatisticas: {
+    "Poder Destrutivo": "10/10",
+    "Velocidade": "9/10",
+    "Alcance": "6/10",
+    "Resistência": "9/10",
+    "Precisão": "8/10",
+    "Potencial": "10/10"
+  },
+  habilidades: [
+    {
+      nome: "Giro Infinito",
+      descricao: "Utilizando a rotação perfeita, essa técnica cria uma maldição eterna no alvo, forçando-o a se mover infinitamente, mesmo através de realidades alternativas."
+    },
+    {
+      nome: "Perfuração Dimensional",
+      descricao: "Tusk ACT4 pode atingir inimigos através de barreiras dimensionais, tornando inúteis poderes defensivos como D4C: Love Train."
+    },
+    {
+      nome: "Unhas Giratórias",
+      descricao: "dispara suas unhas como projéteis perfurantes giratórios, capazes de seguir o alvo mesmo após contato inicial, girando através do espaço-tempo."
+    }
+  ]
+}
+    };
+
+    const estatisticasDescricoes = {
+      "Poder Destrutivo": "Mede a força de um Stand e sua habilidade de causar destruição (ferimentos físicos ou dano ambiental colateral) em um dado período de tempo.",
+      "Velocidade": "A velocidade de movimento e ataque do Stand. Determina a rapidez com que o Stand se move e ataca.",
+      "Alcance": "A distância máxima em que o Stand pode operar com eficácia.",
+      "Resistência": "A resistência do Stand. Quanto maior, mais dano o Stand pode suportar.",
+      "Precisão": "A precisão do Stand, indicando a habilidade de realizar ataques ou ações com alta exatidão.",
+      "Potencial": "A capacidade do Stand de melhorar ou evoluir ao longo do tempo."
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+  const nomeStand = urlParams.get("nome");
+  const stand = dadosStands[nomeStand];
+
+  if (stand) {
+    document.getElementById("stand-nome").textContent = nomeStand;
+    document.getElementById("stand-desc").textContent = stand.descricao;
+    const img = document.getElementById("stand-img");
+    img.src = stand.imagem;
+
+    const listaEstatisticas = document.getElementById("estatisticas-lista");
+    Object.entries(stand.estatisticas).forEach(([stat, valor]) => {
+      const li = document.createElement("li");
+      li.textContent = `${stat}: ${valor}`;
+      li.addEventListener("click", () => mostrarModal(stat, estatisticasDescricoes[stat]));
+      listaEstatisticas.appendChild(li);
+    });
+
+    const listaHabilidades = document.getElementById("habilidades-lista");
+    stand.habilidades.forEach(hab => {
+      const li = document.createElement("li");
+      li.textContent = hab.nome;
+      li.addEventListener("click", () => mostrarModal(hab.nome, hab.descricao));
+      listaHabilidades.appendChild(li);
+    });
+
+    // AURA E BORDAS COM COR DOMINANTE
+    if (img.complete) {
+      aplicarAura();
+    } else {
+      img.addEventListener("load", aplicarAura);
+    }
+
+    function aplicarAura() {
+      const colorThief = new ColorThief();
+      const [r, g, b] = colorThief.getColor(img);
+      const baseColor = `rgba(${r}, ${g}, ${b}, 0.8)`;  // Cor dominante com opacidade
+      const borderColor = `rgb(${r}, ${g}, ${b})`; // Cor para a borda
+
+      // Atualiza o estilo da aura com a cor extraída
+      const aura = document.querySelector('.aura');
+      aura.style.background = `radial-gradient(circle, ${baseColor} 0%, transparent 70%)`;
+
+      // Atualiza a borda da imagem com a cor predominante
+      img.style.borderColor = borderColor;
+    }
+  } else {
+    document.body.innerHTML = `<h2 style="text-align:center;">Stand não encontrado.</h2>`;
+  }
+
+  function mostrarModal(titulo, desc) {
+    document.getElementById("modal-titulo").textContent = titulo;
+    document.getElementById("modal-desc").textContent = desc;
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  function fecharModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+</script>
+
+</body>
+</html>

@@ -1,18 +1,41 @@
 const stands = {
   flecha: [
-    { nome: "Star Platinum", peso: 0 },
-    { nome: "Killer Queen", peso: 10, especial: true },
-    { nome: "Crazy Diamond", peso: 0 },
-    { nome: "Gold Experience Requiem", peso: 0, especial: true },
-    { nome: "The World", peso: 0, especial: true },
-    { nome: "King Crimson", peso: 10, especial: true },
+    { nome: "Star Platinum", peso: 5 },
+    { nome: "Killer Queen", peso: 5, especial: true },
+    { nome: "Crazy Diamond", peso: 10},
+    { nome: "Gold Experience Requiem", peso: 1, especial: true },
+    { nome: "The World", peso: 5, },
+    { nome: "King Crimson", peso: 5, especial: true },
+    { nome: "Red Hot Chili Pepper", peso: 10 },
+    { nome: "The Hand", peso: 5 },
+    { nome: "Cream", peso: 5 },
+    { nome: "Hierophant Green", peso: 15 },
+    { nome: "Magician's Red", peso: 15, },
+    { nome: "Anubis", peso: 15,  },
+    { nome: "Heaven's Door", peso: 10, },
+    { nome: "Sticky Fingers", peso: 15, },
+    { nome: "Chariot Requiem", peso: 1,especial: true },
+    { nome: "Metallica", peso: 5, },
+    { nome: "Purple Haze", peso: 10, },
+    { nome: "Weather Report", peso: 5 , },
+    { nome: "Whitesnake", peso: 10, },
+    { nome: "C-MOON", peso: 5, },
+    { nome: "Made in Heaven", peso: 1, especial:true },
+   
   ],
   cadaver: [
-    { nome: "Tusk ACT4", peso: 10, especial: true },
-    { nome: "D4C", peso: 10, especial: true },
-    { nome: "Soft & Wet", peso: 0 },
-    { nome: "Wonder of U", peso: 10, especial: true },
-    { nome: "The World - Alternativo", peso: 10, especial: true }
+    { nome: "Tusk ACT4", peso: 2, especial: true },
+    { nome: "D4C", peso: 2, especial: true },
+    { nome: "Soft & Wet", peso: 10 },
+    { nome: "Wonder of U", peso: 1, especial: true },
+    { nome: "The World - Alternativo", peso: 5, especial: true },
+    { nome: "Ball Breaker", peso: 2,  },
+    { nome: "Scary Monsters", peso: 10, },
+    { nome: "Catch the Rainbow", peso: 10, especial: true },
+    { nome: "Cream Starter", peso: 15,  },
+    { nome: "Killer Queen - Alternativo", peso: 5 },
+    { nome: "November Rain", peso: 10 },
+
   ]
 };
 
@@ -78,7 +101,7 @@ function escolher(tipo) {
         let videoPath = "";
         switch (escolhido.nome) {
           case "Gold Experience Requiem":
-            videoPath = "videos/ger-animation.mp4";
+            videoPath = "videos/golden.mp4";
             break;
           case "Tusk ACT4":
             videoPath = "videos/tusk.mp4";
@@ -98,6 +121,16 @@ function escolher(tipo) {
           case "King Crimson":
             videoPath = "videos/king.mp4";
             break;
+            case "Chariot Requiem":
+            videoPath = "videos/chariot-requiem.mp4";
+            break;
+            case "Catch the Rainbow":
+              videoPath = "videos/catch.mp4";
+              break;
+              case "Made in Heaven":
+                videoPath = "videos/heaven.mp4";
+                break;
+
         }
 
         // Configura o vídeo para a animação
