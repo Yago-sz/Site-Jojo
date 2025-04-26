@@ -128,40 +128,31 @@ body {
 .lembrar{
    margin-left: 30px;
 }
-.modal-content{
-    width: 420px;
-    background-color: black;
-    border: 1px solid;
-    border-radius: 10px;
-    color: white;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-   border-radius: 30px;
-    height: 300px;
-    
-}
 .modal-content input{
-font-size: 23px;
-width: 350px;
-border-radius: 15px;
-font-family: "Playwrite HU", cursive;
-}
+    font-size: 23px;
+    width: 350px;
+    border-radius: 15px;
+    font-family: "Playwrite HU", cursive;
+    background-color: black;
+    }
+    
+    
+    .modal-content button{
+    width: 300px;
+    height: 50px;
+    background-color: white;
+    border: none;
+    border-radius: 40px;
+    cursor:pointer;
+    font-size:16px;
+    color: #333;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    margin-top: 20px;
+    min-width: 10px;
+    margin: 20px auto 0 auto; /* top auto bottom auto → CENTRALIZADO */
+    display: block; /* garante que o margin auto funcione corretamente */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: "Playwrite HU", cursive;
+      }
 
-
-.modal-content button{
-width: 300px;
-height: 50px;
-
-border: none;
-border-radius: 40px;
-cursor:pointer;
-font-size:16px;
-color: #333;
-font-weight: 600;
-box-shadow: 0 0 10px rgba(0,0,0,.1);
-margin-top: 20px;
-min-width: 10px;
-margin: 20px auto 0 auto; /* top auto bottom auto → CENTRALIZADO */
-display: block; /* garante que o margin auto funcione corretamente */
-transition: transform 0.2s ease, box-shadow 0.2s ease;
-font-family: "Playwrite HU", cursive;
-  }
